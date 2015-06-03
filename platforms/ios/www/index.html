@@ -301,7 +301,8 @@
                         <span color-this="color" data-color="story.title" class="story-title">{{ story.title }}</span>
               
                         <span color-this="color" data-color="story" class="story-site">({{ story.url | urlToHost }})</span>
-              
+                        <span color-this="color" data-color="story" class="story-site" ng-repeat="id in story.kids">{{ id.text }}</span>
+
                         <span style="display:inline" class="story-info">{{ story.score }} points by</span><span style="display:inline" color-this="color" data-color="story.title" class="story-info"> {{ story.by }} </span><span style="display:inline" class="story-info">{{ story.time | timeAgo }}</span>
             
                       </div>
@@ -324,14 +325,11 @@
 
                       <span color-this="color" data-color="story.title" class="story-kids">
                         
-                        <p>{{ viewing.kids }}</p>
-
-                        <p ng-repeat="item.id in viewing.kids">{{ item.id.text }}</p>
+                        <p>{{ kid.text }}</p>
 
                       </span>
 
                     </div>
-
                   </ons-list-item>
             
                   <ons-list-item ng-show="section == 'ask' && stories.length == 0">
@@ -511,7 +509,6 @@ function startTutorial(){
  document.getElementById("first").setAttribute("class", "first");
  document.getElementById("swipewords").innerHTML="Swipe to the left to reveal menu";
 }
-
 
 
 var colr;

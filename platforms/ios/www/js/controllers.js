@@ -37,7 +37,9 @@ angular.module('app.controllers', ['app.services']).controller('AppController', 
     };
     $scope.viewAsk = function(story) {
       $scope.viewing = story;
+      $scope.kid = story.kids.slice(0,1);
     };
+   
     return $scope.getStory = function(id) {
       var deferred, timer;
       deferred = $q.defer();
@@ -183,7 +185,7 @@ angular.module('app.controllers', ['app.services']).controller('AppController', 
     return HackerNews.child('askstories').on('value', $scope.getAskStories);
   }
 ]);
-
+//myApp.factory('myService', function() {});
 
 
 
