@@ -1,0 +1,89 @@
+@font-face {
+    font-family: BrandonLight;
+    src: url(Brandon_light.otf);
+}
+
+@font-face{
+    font-family: BrandonLightItalic;
+    src: url(Brandon_light_it.otf);
+}
+
+#menuSelection label {
+    background-color:#EFEFEF;
+    overflow:auto;      
+}
+
+#menuSelection label span {
+    display:block;
+}
+
+#menuSelection label input {
+    position:absolute;
+}
+
+input[type=radio] { display:none; }
+
+input:checked + span {
+    background-color: rgb(117, 198, 180);
+    color:white;
+}
+
+span.story-title {
+  display: block;
+  float: left;
+  width: 75%;
+  font-size: 18px;
+  font-family: BrandonLight;
+}
+
+span.story-site {
+  display: block;
+  float: right;
+  width: 25%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: right;
+  font-size: 12px;
+  opacity: 0.6;
+  font-family: BrandonLight;
+}
+
+span.story-info {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  opacity: 0.6;
+  font-size: 13px;
+  font-family: BrandonLight;
+}
+
+ons-list-item.story {
+  line-height: 22px;
+}
+
+div.navigation-bar__title {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.page__status-bar-fill ~ .page__content {
+padding-top: 20px;
+}
+
+.first{
+  width:100%;
+  height:50%;
+  color: rgb(117, 198, 180);
+  background-color: white;
+  font-size:35px;
+}
+
+#swipewords{
+  padding: 0 10px 0 10px;
+  font-family: BrandonLightItalic;
+
+}
+

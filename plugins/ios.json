@@ -1,0 +1,43 @@
+{
+    "prepare_queue": {
+        "installed": [],
+        "uninstalled": []
+    },
+    "config_munge": {
+        "files": {
+            "framework": {
+                "parents": {
+                    "CoreGraphics.framework": [
+                        {
+                            "xml": "false",
+                            "count": 1
+                        }
+                    ]
+                }
+            },
+            "config.xml": {
+                "parents": {
+                    "/*": [
+                        {
+                            "xml": "<feature name=\"ThemeableBrowser\"><param name=\"ios-package\" value=\"CDVThemeableBrowser\" /></feature>",
+                            "count": 1
+                        },
+                        {
+                            "xml": "<feature name=\"Clipboard\"><param name=\"ios-package\" value=\"CDVClipboard\" /></feature>",
+                            "count": 1
+                        }
+                    ]
+                }
+            }
+        }
+    },
+    "installed_plugins": {
+        "com.initialxy.cordova.themeablebrowser": {
+            "PACKAGE_NAME": "com.spencerpope.hacck"
+        },
+        "com.verso.cordova.clipboard": {
+            "PACKAGE_NAME": "com.spencerpope.hacck"
+        }
+    },
+    "dependent_plugins": {}
+}

@@ -1,0 +1,26 @@
+{
+    "version": "0.2.6",
+    "name": "com.initialxy.cordova.themeablebrowser",
+    "cordova_name": "ThemeableBrowser",
+    "description": "Cordova ThemeableBrowser Plugin",
+    "license": "Apache 2.0",
+    "repo": "https://github.com/initialxy/cordova-plugin-themeablebrowser.git",
+    "issue": "https://github.com/initialxy/cordova-plugin-themeablebrowser/issues",
+    "keywords": [
+        "cordova",
+        "in",
+        "app",
+        "browser",
+        "themeablebrowser"
+    ],
+    "platforms": [
+        "android",
+        "ios"
+    ],
+    "engines": [
+        {
+            "name": "cordova",
+            "version": ">=3.1.0"
+        }
+    ]
+}

@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<!--
+    Licensed to the Apache Software Foundation (ASF) under one
+    or more contributor license agreements.  See the NOTICE file
+    distributed with this work for additional information
+    regarding copyright ownership.  The ASF licenses this file
+    to you under the Apache License, Version 2.0 (the
+    "License"); you may not use this file except in compliance
+    with the License.  You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing,
+    software distributed under the License is distributed on an
+    "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
+     KIND, either express or implied.  See the License for the
+    specific language governing permissions and limitations
+    under the License.
+-->
+<html ng-app="app">
+   
+    <head>
+       
+        <meta charset="utf-8" />
+        
+        <meta name="format-detection" content="telephone=no" />
+        
+        <meta name="msapplication-tap-highlight" content="no" />
+        
+        <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+        
+        <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+        
+        <title>HackerNews</title>
+        
+        <link rel="stylesheet" href="lib/onsen/css/onsenui.css">
+       
+        <link rel="stylesheet" href="css/onsen-css-components.css">
+        
+        <link rel="stylesheet" href="css/app.css">
+
+        <link rel="stylesheet" href="css/evil-icons.min.css">
+        
+        <link href="css/sprite-navigation-black.css" rel="stylesheet">
+
+    </head>
+   
+    <body ng-controller="AppController">
+
+      <ons-sliding-menu
+       
+        main-page="page1.html"
+       
+        menu-page="menu.html"
+       
+        side="right"
+       
+        max-slide-distance="250px"
+       
+        var="menu"
+        
+        swipeable
+        
+        close-on-tap>
+
+      </ons-sliding-menu>  
+        
+      <ons-template id="page1.html">
+ 
+        <ons-navigator var="navi">
+          
+          <!--<ons-icon icon="fa-bars"  style="position:fixed; top:20px; right:10px; z-index:200; font-size:1.5em;" ng-click="menu.toggleMenu()"></ons-icon>-->
+      
+            <ons-list ng-controller="LatestController">
+<div id="first" ng-click="hideme=true" ng-swipe-left="hideme=true" ng-hide="hideme"><p id="swipewords"></p></div>
+
+              <ons-list-item modifier="tappable" ng-repeat="story in stories" ng-click="gotoStory(story); showme=true;" ng-touch="gotoStory(story); showme=true;">
+                  
+                <div ng-hide="showme">
+
+                  <div style="padding: 0 10px 0 10px;">
+           
+                    <span color-this="color" data-color="story.title" class="story-title">{{ story.title }}</span>
+            
+                    <span color-this="color" data-color="story" class="story-site">({{ story.url | urlToHost }})</span>
+            
+                    <span style="display:inline" class="story-info">{{ story.score }} points by</span><span style="display:inline" color-this="color" data-color="story.title" class="story-info"> {{ story.by }} </span><span style="display:inline" class="story-info">{{ story.time | timeAgo }}</span>
+         
+                </div>
+          
+              </div>
+          
+              <div ng-show="showme" style="opacity:0.4" color-this="background" data-color="story.title">
+                
+                <div style="padding: 0 10px 0 10px;">
+            
+                  <span class="story-title">{{ story.title }}</span>
+            
+                  <span class="story-site">({{ story.url | urlToHost }})</span>
+            
+                  <span class="story-info">{{ story.score }} points by {{ story.by }} {{ story.time | timeAgo }}</span>
+                
+                </div>
+              
+              </div>
+          
+            </ons-list-item>
+          
+            <ons-list-item ng-show="section == 'latest' && stories.length == 0">
+              
+              <ons-icon icon="ion-load-d" spin="true"></ons-icon>
+            
+                bish jus wait
+              
+              </ons-list-item>
+        
+            </ons-list>
+        
+        </ons-navigator>
+
+      </ons-template>
+
+      <ons-template id="page2.html">
+  
+        <ons-navigator var="navi">
+
+          <!--<ons-icon icon="fa-bars"  style="position:fixed; top:20px; right:10px; z-index:200;" ng-click="menu.toggleMenu()"></ons-icon>-->
+
+            <ons-list ng-show="section == 'top'" ng-controller="TopController">
+          
+              <ons-list-item  modifier="tappable" ng-repeat="story in stories" ng-click="gotoStory(story); showme=true;">
+            
+                <div ng-hide="showme">
+            
+                  <div style="padding: 0 10px 0 10px;">
+            
+                    <span color-this="color" data-color="story.title" class="story-title">{{ story.title }}</span>
+            
+                    <span color-this="color" data-color="story" class="story-site">({{ story.url | urlToHost }})</span>
+            
+                    <span style="display:inline" class="story-info">{{ story.score }} points by</span><span style="display:inline" color-this="color" data-color="story.title" class="story-info"> {{ story.by }} </span><span style="display:inline" class="story-info">{{ story.time | timeAgo }}</span>
+                  
+                  </div>
+          
+                </div>
+          
+                <div ng-show="showme" style="opacity:0.4" color-this="background" data-color="story.title">
+            
+                  <div style="padding: 0 10px 0 10px;">
+            
+                    <span class="story-title">{{ story.title }}</span>
+            
+                    <span class="story-site">({{ story.url | urlToHost }})</span>
+            
+                    <span class="story-info">{{ story.score }} points by {{ story.by }} {{ story.time | timeAgo }}</span>
+          
+                  </div>
+                
+                </div>
+          
+              </ons-list-item>
+          
+              <ons-list-item ng-show="section == 'top' && stories.length == 0">
+              
+                <ons-icon icon="ion-load-d" spin="true"></ons-icon>
+                
+                  bish jus wait
+              
+              </ons-list-item>
+            
+            </ons-list>
+
+          </ons-navigator>
+    
+        </ons-template>
+
+        <ons-template id="show.html">
+  
+          <ons-navigator var="navi">
+
+            <!--<ons-icon icon="fa-bars"  style="position:fixed; top:20px; right:10px; z-index:200;" ng-click="menu.toggleMenu()"></ons-icon>-->
+
+              <ons-list ng-controller="ShowController">
+          
+                <ons-list-item  modifier="tappable" ng-repeat="story in stories" ng-click="gotoStory(story); showme=true;" ng-swipe-right="showkids=true">
+           
+                  <div ng-hide="showme">
+                  
+                    <div style="padding: 0 10px 0 10px;">
+            
+                      <span color-this="color" data-color="story.title" class="story-title">{{ story.title }}</span>
+            
+                      <span color-this="color" data-color="story" class="story-site">({{ story.url | urlToHost }})</span>
+            
+                      <span style="display:inline" class="story-info">{{ story.score }} points by</span><span style="display:inline" color-this="color" data-color="story.title" class="story-info"> {{ story.by }} </span><span style="display:inline" class="story-info">{{ story.time | timeAgo }}</span>
+          
+                    </div>
+          
+                  </div>
+
+                  <!--<div ng-show="showkids">{{story.kids}}</div>-->
+
+                  <div ng-show="showme" style="opacity:0.4" color-this="background" data-color="story.title">
+            
+                    <div style="padding: 0 10px 0 10px;">
+            
+                      <span class="story-title">{{ story.title }}</span>
+            
+                      <span class="story-site">({{ story.url | urlToHost }})</span>
+            
+                      <span class="story-info">{{ story.score }} points by {{ story.by }} {{ story.time | timeAgo }}</span>
+          
+                    </div>
+        
+                  </div>
+          
+                </ons-list-item>
+          
+                <ons-list-item ng-show="section == 'show' && stories.length == 0">
+                
+                  <ons-icon icon="ion-load-d" spin="true"></ons-icon>
+            
+                    bish jus wait
+                
+                </ons-list-item>
+        
+              </ons-list>
+
+            </ons-navigator>
+
+          </ons-template>
+
+          <ons-template id="jobs.html">
+    
+            <ons-navigator var="navi">
+
+              <!--<ons-icon icon="fa-bars"  style="position:fixed; top:20px; right:10px; z-index:200;" ng-click="menu.toggleMenu()"></ons-icon>-->
+
+                <ons-list  ng-controller="JobController">
+            
+                  <ons-list-item  modifier="tappable" ng-repeat="story in stories" ng-click="gotoStory(story); showme=true;">
+             
+                    <div ng-hide="showme">
+              
+                      <div style="padding: 0 10px 0 10px;">
+              
+                        <span color-this="color" data-color="story.title" class="story-title">{{ story.title }}</span>
+              
+                        <span color-this="color" data-color="story" class="story-site">({{ story.url | urlToHost }})</span>
+              
+                        <span style="display:inline" class="story-info">{{ story.score }} points by</span><span style="display:inline" color-this="color" data-color="story.title" class="story-info"> {{ story.by }} </span><span style="display:inline" class="story-info">{{ story.time | timeAgo }}</span>
+            
+                      </div>
+            
+                    </div>
+            
+                    <div ng-show="showme" style="opacity:0.4" color-this="background" data-color="story.title">
+                      
+                      <div style="padding: 0 10px 0 10px;">
+              
+                        <span class="story-title">{{ story.title }}</span>
+              
+                        <span color-this="color" data-color="story" class="story-site">({{ story.url | urlToHost }})</span>
+              
+                        <span class="story-info">{{ story.score }} points by {{ story.by }} {{ story.time | timeAgo }}</span>
+            
+                      </div>
+          
+                    </div>
+            
+                  </ons-list-item>
+            
+                  <ons-list-item ng-show="section == 'job' && stories.length == 0">
+                  
+                    <ons-icon icon="ion-load-d" spin="true"></ons-icon>
+                      
+                      bish jus wait
+            
+                  </ons-list-item>
+                
+                </ons-list>
+
+              </ons-navigator>
+
+            </ons-template>
+
+            <ons-template id="ask.html">
+    
+              <ons-navigator var="navi">
+
+              <!--<ons-icon icon="fa-bars"  style="position:fixed; top:20px; right:10px; z-index:200;" ng-click="menu.toggleMenu()"></ons-icon>-->
+
+                <ons-list  ng-controller="AskController">
+            
+                  <ons-list-item  modifier="tappable" ng-repeat="story in stories" ng-click="viewAsk(story);" ng-hide="viewing">
+             
+                    <div ng-hide="showme" >
+              
+                      <div style="padding: 0 10px 0 10px;">
+              
+                        <span color-this="color" data-color="story.title" class="story-title">{{ story.title }}</span>
+              
+                        <span color-this="color" data-color="story" class="story-site">({{ story.url | urlToHost }})</span>
+                        <span color-this="color" data-color="story" class="story-site" ng-repeat="id in story.kids">{{ id.text }}</span>
+
+                        <span style="display:inline" class="story-info">{{ story.score }} points by</span><span style="display:inline" color-this="color" data-color="story.title" class="story-info"> {{ story.by }} </span><span style="display:inline" class="story-info">{{ story.time | timeAgo }}</span>
+            
+                      </div>
+            
+                    </div>
+
+                  </ons-list-item>
+
+                  <ons-list-item>
+
+                    <div ng-show="viewing">
+
+                      <span color-this="color" data-color="story.title" class="story-title">{{ viewing.title }}</span>
+
+                      <br>
+
+                      <br>
+
+                      <span color-this="color" data-color="story.title" class="story-text"><div ng-bind-html="viewing.text"></div></span>
+
+                      <span color-this="color" data-color="story.title" class="story-kids">
+                        
+                        <p>{{ kid.text }}</p>
+
+                      </span>
+
+                    </div>
+                  </ons-list-item>
+            
+                  <ons-list-item ng-show="section == 'ask' && stories.length == 0">
+                  
+                    <ons-icon icon="ion-load-d" spin="true"></ons-icon>
+                      
+                      bish jus wait
+            
+                  </ons-list-item>
+                
+                </ons-list>
+
+              </ons-navigator>
+
+            </ons-template>
+
+            <ons-template id="menu.html">
+
+              <ons-navigator var="navi">
+
+                <div id="menuSelection">
+    
+                  <ons-list>
+    
+                    <label class="latest" ng-init="toggle=true;" ng-click="toggle=true; togglethis=false; togglethat=false; togglejobs=false; toggleask=false;"><input type="radio" name="toggle" >
+
+                      <span ng-hide="toggle">
+      
+                        <ons-list-item  id="latest" style="padding: 0 10px 0 10px;" onTouchStart="menu.setMainPage('page1.html', {closeMenu: true})" onclick="menu.setMainPage('page1.html', {closeMenu: true})">Latest
+      
+                        </ons-list-item>
+      
+                      </span>
+
+                      <span ng-show="toggle" style="background-color: rgb(117, 198, 180);">
+
+                        <ons-list-item style="padding: 0 10px 0 10px;" onTouchStart="menu.setMainPage('page1.html', {closeMenu: true})" onclick="menu.setMainPage('page1.html', {closeMenu: true})">Latest
+      
+                        </ons-list-item>
+
+                      </span>
+                    
+                    </label>
+
+                    <label class="top" ng-click="toggle=false; togglethis=true; togglethat=false; togglejobs=false; toggleask=false;"><input type="radio" name="toggle" >
+
+                      <span ng-hide="togglethis">
+      
+                        <ons-list-item style="padding: 0 10px 0 10px;" onTouchStart="menu.setMainPage('page2.html', {closeMenu: true})" onclick="menu.setMainPage('page2.html', {closeMenu: true})">Top
+      
+                        </ons-list-item>
+      
+                      </span>
+                      
+                      <span ng-show="togglethis" style="background-color: rgb(117, 198, 180);">
+
+                        <ons-list-item style="padding: 0 10px 0 10px;" onTouchStart="menu.setMainPage('page2.html', {closeMenu: true})" onclick="menu.setMainPage('page2.html', {closeMenu: true})">Top
+      
+                        </ons-list-item>
+
+                      </span>
+
+                    </label>
+
+                    <label class="show" ng-click="toggle=false; togglethis=false; togglethat=true; togglejobs=false; toggleask=false;"><input type="radio" name="toggle">
+
+                      <span ng-hide="togglethat">
+      
+                        <ons-list-item style="padding: 0 10px 0 10px;" onTouchStart="menu.setMainPage('show.html', {closeMenu: true})" onclick="menu.setMainPage('show.html', {closeMenu: true})">Show
+      
+                        </ons-list-item>
+      
+                      </span>
+
+                      <span ng-show="togglethat" style="background-color: rgb(117, 198, 180);">
+
+                        <ons-list-item style="padding: 0 10px 0 10px;" onTouchStart="menu.setMainPage('show.html', {closeMenu: true})" onclick="menu.setMainPage('show.html', {closeMenu: true})">Show
+      
+                        </ons-list-item>
+
+                      </span>
+      
+                    </label>
+                    
+                    <label class="jobs" ng-click="toggle=false; togglethis=false; togglethat=false; togglejobs=true; toggleask=false;"><input type="radio" name="toggle">
+
+                      <span ng-hide="togglejobs">
+      
+                        <ons-list-item style="padding: 0 10px 0 10px;" onTouchStart="menu.setMainPage('jobs.html', {closeMenu: true})" onclick="menu.setMainPage('jobs.html', {closeMenu: true})">Jobs
+      
+                        </ons-list-item>
+      
+                      </span>
+
+                      <span ng-show="togglejobs" style="background-color: rgb(117, 198, 180);">
+
+                        <ons-list-item style="padding: 0 10px 0 10px;" onTouchStart="menu.setMainPage('jobs.html', {closeMenu: true})" onclick="menu.setMainPage('jobs.html', {closeMenu: true})">Jobs
+      
+                        </ons-list-item>
+
+                      </span>
+      
+                    </label>
+
+                    <label class="ask" ng-click="toggle=false; togglethis=false; togglethat=false; togglejobs=false; toggleask=true;"><input type="radio" name="toggle">
+
+                      <span ng-hide="toggleask">
+      
+                        <ons-list-item style="padding: 0 10px 0 10px;" onTouchStart="menu.setMainPage('ask.html', {closeMenu: true})" onclick="menu.setMainPage('ask.html', {closeMenu: true})">Ask
+      
+                        </ons-list-item>
+      
+                      </span>
+
+                      <span ng-show="toggleask" style="background-color: rgb(117, 198, 180);">
+
+                        <ons-list-item style="padding: 0 10px 0 10px;" onTouchStart="menu.setMainPage('ask.html', {closeMenu: true})" onclick="menu.setMainPage('ask.html', {closeMenu: true})">Ask
+      
+                        </ons-list-item>
+
+                      </span>
+      
+                    </label>
+                    
+                  </ons-list>
+    
+                  <a style="position:absolute; bottom:10px; padding: 0 10px 0 10px; text-decoration:none;" href="http://www.spencerpopedesign.com">by</a>
+                
+                </div>
+    
+              </ons-navigator>
+
+            </ons-template>
+      
+      <script src="cordova.js"></script>
+
+      <script src="lib/angular.js"></script>
+        
+      <script src="lib/angular-animate.js"></script>
+        
+      <script src="lib/firebase.js"></script>
+        
+      <script src="lib/onsen/js/onsenui.js"></script>
+        
+      <script src="lib/angular-color-this.min.js"></script> 
+        
+      <script src="lib/angular-touch.min.js"></script> 
+        
+      <script src="lib/angular-longpress.js"></script> 
+
+      <script src="lib/selection-model.min.js"></script> 
+
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.15/angular-sanitize.min.js"></script>
+
+      <script src="lib/evil-icons.min.js"></script>
+
+      <script src="js/services.js"></script>
+        
+      <script src="js/controllers.js"></script>
+       
+      <script src="js/app.js"></script>
+
+      <script>
+
+ //var applaunchCount = window.localStorage.getItem('launchCount');
+
+// CHECK if it already exists or not
+//if(applaunchCount){
+   //This is a second time launch, and count = applaunchCount
+//}else{
+  /// LOCAL storage is not set, hence first time launch. set the local storage item
+ //window.localStorage.setItem('launchCount',1);      
+startTutorial();
+//}
+
+function startTutorial(){
+ document.getElementById("first").setAttribute("class", "first");
+ document.getElementById("swipewords").innerHTML="Swipe to the left to reveal menu";
+}
+
+
+var colr;
+      </script>
+
+    </body>
+
+</html>
